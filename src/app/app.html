@@ -1,0 +1,17 @@
+
+<!-- <app-add-book></app-add-book> -->
+
+<app-book-list [book_list]="book_list"  ></app-book-list>
+<br><hr><br>
+<h1 hover >View Book</h1>
+<app-view-book (bookId)="fun($event)" [Viewed_book]="getbook" (makeChange)="makeChangeinbook($event)"> </app-view-book>
+
+
+    <!-- Pipes Used -->
+
+    <h1> Search Books (By author name or title)     </h1>
+    <input type="text" [(ngModel)]="search">
+
+    <li *ngFor="let b of book_list | filter:search">
+            {{ b | json }}
+    </li>

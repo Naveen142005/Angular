@@ -1,0 +1,24 @@
+<h1>Add Books</h1>
+<form #books = "ngForm" (ngSubmit)="OnSubmit(books.value)">
+    <label for="">Name: </label>
+    <input type="text" name="book_name" id="" [(ngModel)]="book_name" required>
+    <!-- @if (book_name.length){
+        Entered book_name : {{book_name}}
+    } -->
+    <br>
+
+    <label for="">Author: </label>
+    <input type="text" name="author" id="" [(ngModel)] = "author" required>
+
+    <!-- @if (author.length){
+        Entered Author name :  {{author}}
+    } -->
+    <br>
+    <button type="submit" style="padding: 4px;" [disabled]="!books.valid" >Submit</button>
+</form> 
+
+
+@if(book_name.length || author.length) {
+    <h3>Your Result !!</h3>
+    {{books.value| json}}
+}

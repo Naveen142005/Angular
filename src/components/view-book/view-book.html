@@ -1,0 +1,42 @@
+<label for="">Book Id:</label>
+<input type="number" #bookid required (input)="cls(bookid)">
+<br>
+<button (click)="fun(bookid.value)" hover  >Show Book</button>
+    @if (Viewed_book){
+
+        <div>
+            <span>book_id : {{Viewed_book.id }}</span>  <br>
+            book_name : {{Viewed_book.title}} <br>
+            book_autuor : {{Viewed_book.author}} <br>
+            <br>
+
+            <button (click)="editClicked = true">Edit</button>
+            &nbsp;
+            <button (click)="call(Viewed_book.id, false)" >Delete</button>
+        </div>
+        <br>
+
+        <div [ngStyle]="{'display' : editClicked ? 'block' : 'none'}">
+            <input type="text" placeholder="Book title" [(ngModel)] = "bookTitle" > 
+            &nbsp;
+            <input type="text" placeholder="Book author name" [(ngModel)] = "bookAuthor">  
+            &nbsp;
+            <button (click)="call(Viewed_book.id, true)">Okay</button>
+        </div>
+
+    }
+    @else  {
+        @if (bookid.value.length > 0 && flag) {
+            <div style="color: red;">Book not Found</div>
+        }
+    }   
+    <br>
+    <br>
+    <hr>
+
+    <!--
+                    Using ngIf
+
+        <div *ngIf="Viewed_book"> {{Viewed_book | json}}</div>
+        <div *ngIf="!Viewed_book && bookid.value.length > 0" style="color: red;"> Book not Found ! </div>   
+    -->
