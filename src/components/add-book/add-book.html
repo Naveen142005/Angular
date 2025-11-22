@@ -14,7 +14,10 @@
         Entered Author name :  {{author}}
     } -->
     <br>
-    <button type="submit" style="padding: 4px;" [disabled]="!books.valid" >Submit</button>
+    <button type="submit" (click)="showAlert()" style="padding: 4px;" [disabled]="!books.valid" >Submit</button>
+    <br>
+    <div #alertContainer></div>
+
 </form> 
 
 

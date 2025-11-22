@@ -1,29 +1,36 @@
 <label for="">Book Id:</label>
-<input type="number" #bookid required (input)="cls(bookid)">
+<input type="number" #bookid required (input)="cls(bookid)" auto_focus>
 <br>
 <button (click)="fun(bookid.value)" hover  >Show Book</button>
     @if (Viewed_book){
 
         <div>
+            <br>
             <span>book_id : {{Viewed_book.id }}</span>  <br>
             book_name : {{Viewed_book.title}} <br>
             book_autuor : {{Viewed_book.author}} <br>
+            book_price : {{Viewed_book.price}}
+            <br>
+            <br>
+        </div>
+
+        <div *isAdmin="admin_flag">
+                <button (click)="editClicked = true">Edit</button>
+                &nbsp;
+                <button (click)="call(Viewed_book.id, false)" >Delete</button>
+            
             <br>
 
-            <button (click)="editClicked = true">Edit</button>
-            &nbsp;
-            <button (click)="call(Viewed_book.id, false)" >Delete</button>
+            <div [ngStyle]="{'display' : editClicked ? 'block' : 'none'}">
+                <input type="text" placeholder="Book title" [(ngModel)] = "bookTitle" > 
+                &nbsp;
+                <input type="text" placeholder="Book author name" [(ngModel)] = "bookAuthor">  
+                &nbsp;
+                <input type="number" placeholder="Book Price" [(ngModel)] ="bookPrice">
+                <br>
+                <button (click)="call(Viewed_book.id, true)">Okay</button>
+            </div>
         </div>
-        <br>
-
-        <div [ngStyle]="{'display' : editClicked ? 'block' : 'none'}">
-            <input type="text" placeholder="Book title" [(ngModel)] = "bookTitle" > 
-            &nbsp;
-            <input type="text" placeholder="Book author name" [(ngModel)] = "bookAuthor">  
-            &nbsp;
-            <button (click)="call(Viewed_book.id, true)">Okay</button>
-        </div>
-
     }
     @else  {
         @if (bookid.value.length > 0 && flag) {

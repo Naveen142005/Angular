@@ -1,4 +1,5 @@
 
+
 <app-add-book (newBook)="add_new($event)" ></app-add-book>
 <br><hr><br>
 
@@ -8,12 +9,13 @@
         <summary style="font-size: 24px; font-weight: bolder;">
             All Books
         </summary>
-        @for (b of book_list; track b.id) {
+        @for (b of book_list(); track b.id) {
             <li [ngStyle]="{'color':'yellow', 'margin-left':'80px'}">{{b | json}}</li>
         }
     </details>
 
              <!-- Using ngFor -->
-    <!-- <li *ngFor="let b of book_list"> {{b | json}}</li> -->
+    <!-- <li *ngFor="let b of book_list()"> {{b | json}}</li> -->
 
 </ol>
+

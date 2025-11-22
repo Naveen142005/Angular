@@ -2,24 +2,29 @@ import { JsonPipe, NgIf, NgClass, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { hover } from '../../directives/hover.directives';
 import { FormsModule } from '@angular/forms';
+import { auto_focus } from "../../directives/auto-focus.directives";
+import { isAdmin } from "../../directives/appIfAdmin.directives";
 
 @Component({
 	selector: 'app-view-book',
-	imports: [hover, FormsModule, NgStyle],
+	imports: [hover, FormsModule, NgStyle, auto_focus, isAdmin],
 	templateUrl: './view-book.html',
 	styleUrl: './view-book.css',
 })
 export class ViewBook {
-	@Input() Viewed_book: { id: number; title: string; author: string } | undefined;
+	@Input() Viewed_book: { id: number; title: string; author: string; price: number } | undefined;
 
 	@Output() bookId = new EventEmitter<any>();
 
 	@Output() makeChange = new EventEmitter<any>();
 
+	@Input() admin_flag: boolean = true
+	
 	flag = false;
 	editClicked: any = false;
 	bookTitle: any;
 	bookAuthor: any;
+	bookPrice: any;
 
 	fun(book_id: any) {
 		this.flag = true;
@@ -39,10 +44,12 @@ export class ViewBook {
 	}
 
 	call(id: any, isEdit: boolean) {
+		alert('Book updated')
 		this.makeChange.emit({
 			id: id,
 			title: this.bookTitle,
 			author: this.bookAuthor,
+			price:this.bookPrice,
 			isEdit: isEdit,
 		});
 	}

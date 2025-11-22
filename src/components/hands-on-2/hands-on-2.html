@@ -1,0 +1,66 @@
+<div class="pl-14 pt-2 ml-[15%]">
+	<h1 style="margin-left: 40%; color: aqua">HandsOn - 2</h1>
+	<br>	
+	<!-- <app-add-book></app-add-book> -->
+	<div class="">
+		<div>
+			<app-book-list *isAdmin="is_admin"></app-book-list>
+			<br />
+			<hr />
+			<br />
+
+			<h1 hover>View Book</h1>
+
+			<app-view-book
+				(bookId)="fun($event)"
+				[Viewed_book]="getbook"
+				(makeChange)="makeChangeinbook($event)"
+				[admin_flag]="is_admin"
+
+			>
+			</app-view-book>
+
+			<!-- Pipes Used -->
+
+			<h1>Search Books (By author name or title)</h1>
+			<input type="text" [(ngModel)]="search" />
+
+			<li *ngFor="let b of book_list() | filter : search">
+				{{ b | json }}
+			</li>
+		</div>
+		
+	</div>
+
+	<div class="absolute right-[100px] top-[90px]">
+			<!-- 1)Create appHighlight directive that changes background on hover -->
+		
+			<div class="border p-5 rounded-md cursor-pointer" appHighlight >Hover me to backgroud change to yellow</div>
+			<br>
+			<hr class="w-[450px]">
+			<br>
+			<h3 class="font-bold"> Created appIfAdmin structural directive </h3>
+			<br>
+			<input type="checkbox" class="w-3 inline m-1" [(ngModel)]="is_admin"> <label for="">Set Admin</label> ==> {{is_admin}}
+			<br>
+			To enable add book and edit books.
+			<br>
+			<br>
+			<hr class="w-[450px]">
+			<br>
+
+			<h3 class="font-bold"> Directive @Input() → appPriceColor="price"</h3>
+			<br>
+			1. <p class="inline" pricedirec [price]="800">Sample book. Price -> 800</p>
+			<br>
+			2. <p class="inline" pricedirec [price]="400">Sample book. Price -> 400</p>
+			<br><br>
+			<hr class="w-[450px]">
+			<br>
+			<h3 class="font-bold">Total Books: </h3>
+			<div>{{total_books()}}</div>
+
+
+	</div>
+
+</div>

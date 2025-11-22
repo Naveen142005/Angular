@@ -19,3 +19,4 @@ export class hover{
         this.ele.nativeElement.style.color = '';
     }
 }
+// jnjh

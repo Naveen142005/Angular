@@ -1,0 +1,24 @@
+<div class="pl-14 pt-2 ml-[15%]">
+       
+                <h1 style="margin-left: 50%; color: aqua;">
+                        HandsOn - 1
+                </h1>
+       
+
+<!-- <app-add-book></app-add-book> -->
+
+<app-book-list></app-book-list>
+<br><hr><br>
+<h1 hover >View Book</h1>
+<app-view-book (bookId)="fun($event)" [Viewed_book]="getbook" (makeChange)="makeChangeinbook($event)"> </app-view-book>
+
+
+    <!-- Pipes Used -->
+
+    <h1> Search Books (By author name or title)     </h1>
+    <input type="text" [(ngModel)]="search">
+
+    <li *ngFor="let b of book_list() | filter:search">
+            {{ b | json }}
+    </li> 
+</div>
