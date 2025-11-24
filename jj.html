@@ -2,136 +2,109 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Directive Output Demo</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Dashboard Widgets</title>
 <style>
-  /* 1. Highlight on hover */
-  .highlight:hover {
-    background: yellow;
-  }
-
-  /* 3. Price color */
-  .price-high {
-    color: red;
-    font-weight: bold;
-  }
-  .price-low {
-    color: green;
-    font-weight: bold;
-  }
-
-  /* 4. Auto focus style */
-  input {
-    padding: 8px;
-    margin: 10px 0;
-    width: 200px;
-  }
-
-  /* 5. Book card visual change */
-  .book-card {
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin: 10px 0;
-  }
-  .book-special {
-    background: #eef;
-    border-color: #00f;
-  }
-
-  /* 6. Click outside — highlight element */
-  .outside-box {
+  body {
+    font-family: Arial, sans-serif;
     padding: 20px;
-    border: 2px solid black;
-    width: 200px;
-    margin-top: 20px;
-    position: relative;
+  }
+
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  button {
+    margin-bottom: 15px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .widget {
+    width: 150px;
+    height: 100px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .widget.dragging {
+    opacity: 0.5;
+    border: 2px dashed #999;
   }
 </style>
 </head>
 <body>
 
-<h2>1. Highlight on Hover</h2>
-<div class="highlight" style="padding:10px; width:150px; border:1px solid #aaa;">
-  Hover over me
-</div>
+<h2>Dynamic Dashboard Widgets</h2>
+<button id="addWidgetBtn">Add Widget</button>
 
-<hr>
-
-<h2>2. Show if Admin</h2>
-<button id="adminBtn" style="padding:8px 15px;">Delete Book</button>
-
-<script>
-  const user = { isAdmin: true };  
-  if (!user.isAdmin) {
-    document.getElementById("adminBtn").style.display = "none";
-  }
-</script>
-
-<hr>
-
-<h2>3. Price Color</h2>
-<div id="priceDisplay"></div>
-
-<script>
-  const price = 650;   // change to test
-  const priceEl = document.getElementById("priceDisplay");
-
-  if (price > 500) {
-    priceEl.className = "price-high";
-    priceEl.innerText = "Price: " + price;
-  } else {
-    priceEl.className = "price-low";
-    priceEl.innerText = "Price: " + price;
-  }
-</script>
-
-<hr>
-
-<h2>4. Auto Focus</h2>
-<input id="autoFocusInput" placeholder="I auto-focus">
-
-<script>
-  window.onload = () => {
-    document.getElementById("autoFocusInput").focus();
-  };
-</script>
-
-<hr>
-
-<h2>5. Book Card Example</h2>
-<div id="bookCard" class="book-card">
-  <strong>Book Title</strong><br>
-  Author: Someone<br>
-  Price: ₹450
+<div id="dashboard" class="dashboard">
+  <div class="widget" draggable="true">Widget 1</div>
+  <div class="widget" draggable="true">Widget 2</div>
+  <div class="widget" draggable="true">Widget 3</div>
 </div>
 
 <script>
-  const isSpecial = true;  
-  if (isSpecial) {
-    document.getElementById("bookCard").classList.add("book-special");
-  }
-</script>
+const dashboard = document.getElementById('dashboard');
+const addBtn = document.getElementById('addWidgetBtn');
+let widgetCount = 3;
+let dragged;
 
-<hr>
+function getDragAfterElement(container, x, y) {
+  const draggableElements = [...container.querySelectorAll('.widget:not(.dragging)')];
 
-<h2>6. Click Outside Box</h2>
-<div id="box" class="outside-box">
-  Click outside this box
-</div>
-
-<p id="msg"></p>
-
-<script>
-  const box = document.getElementById("box");
-  const msg = document.getElementById("msg");
-
-  document.addEventListener("click", (e) => {
-    if (!box.contains(e.target)) {
-      msg.innerText = "Clicked outside!";
-      msg.style.color = "red";
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child };
+    } else {
+      return closest;
     }
-  });
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+// Drag and drop logic
+dashboard.addEventListener('dragstart', e => {
+  dragged = e.target;
+  e.target.classList.add('dragging');
+});
+
+dashboard.addEventListener('dragend', e => {
+  e.target.classList.remove('dragging');
+});
+
+dashboard.addEventListener('dragover', e => {
+  e.preventDefault();
+  const afterElement = getDragAfterElement(dashboard, e.clientX, e.clientY);
+  if (afterElement == null) {
+    dashboard.appendChild(dragged);
+  } else {
+    dashboard.insertBefore(dragged, afterElement);
+  }
+});
+
+// Add new widget dynamically
+addBtn.addEventListener('click', () => {
+  widgetCount++;
+  const widget = document.createElement('div');
+  widget.classList.add('widget');
+  widget.setAttribute('draggable', 'true');
+  widget.textContent = `Widget ${widgetCount}`;
+  dashboard.appendChild(widget);
+});
 </script>
 
 </body>

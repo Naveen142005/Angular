@@ -1,0 +1,65 @@
+<div class="pl-14 pt-2 ml-[15%]">
+  <h1 style="margin-left: 40%; color: aqua">HandsOn - 3</h1>
+  <br />
+
+  <h3 class="font-bold">Async Pipe with Delay (2 sec)</h3>
+  <div *ngIf="(loading$ | async); else dataReady">Loading...</div>
+  <ng-template #dataReady>
+    <div>{{ data$ | async }}</div>
+  </ng-template>
+  <button (click)="cancelReq()" class="btn btn-danger">Cancel Request</button>
+  <br /><br />
+  <hr /><br />
+
+  <h3 class="font-bold">Notification Service</h3>
+  <button (click)="showNoti()" class="btn btn-primary">Show Notification</button>
+  <div *ngIf="noti$ | async as msg" [class.show]="msg">{{ msg }}</div>
+  <br /><br />
+  <hr /><br />
+
+  <h3 class="font-bold">Interval Counter (1sec)</h3>
+  <div>Count: {{ (cntServ$ | async) || 0 }}</div>
+  <br /><br />
+  <hr /><br />
+
+  <h3 class="font-bold">Click Counter</h3>
+  <div>Total Clicks: {{ clickCountValue }}</div>
+  <button (click)="resetClick()" class="btn btn-primary">Reset Click Count</button>
+  <br /><br />
+  <hr /><br />
+
+  <h3 class="font-bold">Signal-based Counter Store</h3>
+  <div>Count: {{ count() }}</div>
+  <div>Double Count: {{ count() * 2 }}</div>
+  <button (click)="inc()" class="btn btn-primary">Increment</button>
+  <button (click)="resetCnt()" class="btn btn-secondary">Reset</button>
+  <br /><br />
+  <hr /><br />
+
+  <h3 class="font-bold">Stream Emitting 5 Values (1sec intervals)</h3>
+  <div>{{ stream$ | async }}</div>
+  <br /><br />
+  <hr /><br />
+
+  <h3 class="font-bold">BehaviorSubject Counter Service</h3>
+  <div>Service Count: {{ cntServ$ | async }}</div>
+  <button (click)="incServ()" class="btn btn-primary">Increment</button>
+  <button (click)="resetServ()" class="btn btn-secondary">Reset</button>
+  <br /><br />
+  <hr /><br />
+
+  <h3 class="font-bold">Search Input with Debounce & Cancel</h3>
+  <input type="text" [formControl]="searchCtrl" placeholder="Search..." class="input input-bordered w-full max-w-xs" />
+  <div>Search Result: {{ searchService$ | async }}</div>
+  <br /><br />
+  <hr /><br />
+
+  <h3 class="font-bold">Load Users with Retry and Error Handling</h3>
+  <button (click)="loadUsers()" class="btn btn-primary">Load Users</button>
+  <div *ngIf="isLoading">Loading users...</div>
+  <ul *ngIf="users$ | async as users">
+    <li *ngFor="let user of users">{{ user.name || user.username || user.email }}</li>
+  </ul>
+  <br /><br />
+  <hr /><br />
+</div>

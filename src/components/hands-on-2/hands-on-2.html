@@ -1,6 +1,6 @@
 <div class="pl-14 pt-2 ml-[15%]">
 	<h1 style="margin-left: 40%; color: aqua">HandsOn - 2</h1>
-	<br>	
+	<br />
 	<!-- <app-add-book></app-add-book> -->
 	<div class="">
 		<div>
@@ -16,7 +16,6 @@
 				[Viewed_book]="getbook"
 				(makeChange)="makeChangeinbook($event)"
 				[admin_flag]="is_admin"
-
 			>
 			</app-view-book>
 
@@ -29,38 +28,98 @@
 				{{ b | json }}
 			</li>
 		</div>
-		
 	</div>
 
 	<div class="absolute right-[100px] top-[90px]">
-			<!-- 1)Create appHighlight directive that changes background on hover -->
-		
-			<div class="border p-5 rounded-md cursor-pointer" appHighlight >Hover me to backgroud change to yellow</div>
-			<br>
-			<hr class="w-[450px]">
-			<br>
-			<h3 class="font-bold"> Created appIfAdmin structural directive </h3>
-			<br>
-			<input type="checkbox" class="w-3 inline m-1" [(ngModel)]="is_admin"> <label for="">Set Admin</label> ==> {{is_admin}}
-			<br>
-			To enable add book and edit books.
-			<br>
-			<br>
-			<hr class="w-[450px]">
-			<br>
+		<!-- 1)Create appHighlight directive that changes background on hover -->
 
-			<h3 class="font-bold"> Directive @Input() → appPriceColor="price"</h3>
-			<br>
-			1. <p class="inline" pricedirec [price]="800">Sample book. Price -> 800</p>
-			<br>
-			2. <p class="inline" pricedirec [price]="400">Sample book. Price -> 400</p>
-			<br><br>
-			<hr class="w-[450px]">
-			<br>
-			<h3 class="font-bold">Total Books: </h3>
-			<div>{{total_books()}}</div>
+		<div class="border p-5 rounded-md cursor-pointer" appHighlight>
+			Hover me to backgroud change to yellow
+		</div>
+		<br />
+		<hr class="w-[450px]" />
+		<br />
+		<h3 class="font-bold">Created appIfAdmin structural directive</h3>
+		<br />
+		<input type="checkbox" class="w-3 inline m-1" [(ngModel)]="is_admin" />
+		<label for="">Set Admin</label> ==> {{ is_admin }}
+		<br />
+		To enable add book and edit books.
+		<br />
+		<br />
+		<hr class="w-[450px]" />
+		<br />
 
+		<h3 class="font-bold">Directive @Input() → appPriceColor="price"</h3>
+		<br />
+		1.
+		<p class="inline" pricedirec [price]="800">Sample book. Price -> 800</p>
+		<br />
+		2.
+		<p class="inline" pricedirec [price]="400">Sample book. Price -> 400</p>
+		<br /><br />
+		<hr class="w-[450px]" />
+		<br />
+		<h3 class="font-bold">Total Books:</h3>
+		<div>{{ total_books() }}</div>
 
+		<br><br>
+		<form [formGroup]="bookForm" (ngSubmit)="addBook(bookForm.value)">
+		<label>Title</label>
+		<input formControlName="title" class="input input-bordered" />
+		<div
+			*ngIf="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
+			class="text-error"
+		>
+			Title is required
+		</div>
+
+		<label>Author</label>
+		<input formControlName="author" class="input input-bordered" />
+		<div
+			*ngIf="bookForm.get('author')?.invalid && bookForm.get('author')?.touched"
+			class="text-error"
+		>
+			Author is required
+		</div>
+
+		<label>Price</label>
+		<input formControlName="price" type="number" class="input input-bordered" />
+		<div
+			*ngIf="bookForm.get('price')?.invalid && bookForm.get('price')?.touched"
+			class="text-error"
+		>
+			Price is required & must be >= 0
+		</div>
+
+		<div formGroupName="publisher">
+			<label>Publisher Name</label>
+			<input formControlName="name" class="input input-bordered" />
+		</div>
+
+		<div formArrayName="tags">
+			<label>Tags</label> &nbsp;&nbsp;&nbsp;&nbsp;
+			<div *ngFor="let tag of tags.controls; let i = index">
+				<input [formControlName]="i" class="input input-bordered" />
+				<button type="button" (click)="removeTag(i)" class="btn btn-danger">Remove</button>
+			</div>
+			<button type="button" (click)="addTag()" class="btn btn-secondary">Add Tag</button>
+		</div>
+		<br><br>
+
+		<button type="submit" class="btn btn-primary" [disabled]="bookForm.invalid">Submit</button>
+		<button type="button" (click)="resetForm()" class="btn btn-secondary">Reset</button>
+	</form>
+	<br><br>
+	<h3>Total Books: {{ total_books() }}</h3>
+	<button (click)="addBook({ title: 'New Book' })" class="btn btn-primary">Add Book</button>
+	<ul>
+		<li *ngFor="let book of book_list()">{{ book.title }}</li>
+	</ul>
 	</div>
 
+	<br>
+	<br>
+
+	
 </div>

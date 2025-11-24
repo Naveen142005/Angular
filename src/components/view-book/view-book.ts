@@ -2,8 +2,9 @@ import { JsonPipe, NgIf, NgClass, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { hover } from '../../directives/hover.directives';
 import { FormsModule } from '@angular/forms';
-import { auto_focus } from "../../directives/auto-focus.directives";
-import { isAdmin } from "../../directives/appIfAdmin.directives";
+import { auto_focus } from '../../directives/auto-focus.directives';
+import { isAdmin } from '../../directives/appIfAdmin.directives';
+import { model } from '../../models/model';
 
 @Component({
 	selector: 'app-view-book',
@@ -18,8 +19,10 @@ export class ViewBook {
 
 	@Output() makeChange = new EventEmitter<any>();
 
-	@Input() admin_flag: boolean = true
-	
+	@Input() admin_flag: boolean = true;
+
+	constructor(private m: model) {}
+
 	flag = false;
 	editClicked: any = false;
 	bookTitle: any;
@@ -40,16 +43,17 @@ export class ViewBook {
 			this.Viewed_book = undefined;
 			this.flag = false;
 		}
-		
 	}
 
 	call(id: any, isEdit: boolean) {
-		alert('Book updated')
+
+		
+
 		this.makeChange.emit({
 			id: id,
 			title: this.bookTitle,
 			author: this.bookAuthor,
-			price:this.bookPrice,
+			price: this.bookPrice,
 			isEdit: isEdit,
 		});
 	}

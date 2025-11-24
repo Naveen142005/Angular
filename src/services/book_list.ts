@@ -11,4 +11,9 @@ export class BookService {
 	addBook(book: any) {
 		this.book_list.update((books) => [...books, book]);
 	}
+	
+	 getBookById(id: number) {
+		const books = this.book_list();
+		return books.find(book => book.id === id) || null;
+	 }
 }
